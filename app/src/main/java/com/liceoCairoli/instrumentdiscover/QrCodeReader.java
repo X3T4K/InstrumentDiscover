@@ -67,6 +67,7 @@ public class QrCodeReader extends Fragment {
     @Override
     public void onPause() {
         mCodeScanner.releaseResources();
+        System.out.println("GG");
         super.onPause();
     }
     public void goTovideo(View view){
