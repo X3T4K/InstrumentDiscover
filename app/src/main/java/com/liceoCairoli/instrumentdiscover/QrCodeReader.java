@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 public class QrCodeReader extends Fragment {
     private CodeScanner mCodeScanner;
     List<String> scanResult;
-    String x;
+    String y;
 
     @Nullable
     @Override
