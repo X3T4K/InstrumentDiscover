@@ -15,13 +15,16 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
-public class VideoPlayer extends Fragment {
+import java.util.StringTokenizer;
 
+public class VideoPlayer extends Fragment {
+String video;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+         video = getArguments().getString("message");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_videoplayer, container, false);
     }
@@ -33,7 +36,7 @@ public class VideoPlayer extends Fragment {
         YouTubePlayer.OnInitializedListener onInitializedListener = new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.loadVideo("9ZaEPeaucIU");
+                youTubePlayer.loadVideo(video);
             }
 
             @Override
@@ -48,4 +51,5 @@ public class VideoPlayer extends Fragment {
 
 
     }
+
 }
