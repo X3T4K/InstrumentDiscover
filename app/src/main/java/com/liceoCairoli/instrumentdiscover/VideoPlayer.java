@@ -19,6 +19,7 @@ import java.util.StringTokenizer;
 
 public class VideoPlayer extends Fragment {
 String video;
+String x;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
