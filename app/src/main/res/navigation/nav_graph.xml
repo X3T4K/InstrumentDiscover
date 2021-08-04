@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/QrCodeFragment">
+    app:startDestination="@id/HistoryFragment">
 
     <fragment
         android:id="@+id/HistoryFragment"
@@ -23,10 +23,10 @@
         tools:layout="@layout/fragment_qrcode">
 
         <action
-            android:id="@+id/action_QrCodeFragment_to_VideoPlayerFragment2"
+            android:id="@+id/action_QrCodeFragment_to_VideoPlayerFragment"
             app:destination="@id/VideoPlayerFragment" />
         <action
-            android:id="@+id/action_QrCodeFragment_to_HistoryFragment2"
+            android:id="@+id/action_QrCodeFragment_to_HistoryFragment"
             app:destination="@id/HistoryFragment" />
     </fragment>
 

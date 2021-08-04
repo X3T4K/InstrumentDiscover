@@ -19,13 +19,12 @@ import java.util.StringTokenizer;
 
 public class VideoPlayer extends Fragment {
 String video;
-String x;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-         video = getArguments().getString("message");
+         video = QrCodeReader.scanResult.get(1);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_videoplayer, container, false);
     }

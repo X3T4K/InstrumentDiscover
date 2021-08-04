@@ -9,28 +9,26 @@
     tools:context=".QrCodeReader">
 
     <Button
-        android:id="@+id/button_first"
+        android:id="@+id/button_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="video"
-        android:onClick="goTovideo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_first2"
+        app:layout_constraintEnd_toStartOf="@+id/button_doc"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button_first2"
+        android:id="@+id/button_doc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="doc"
-        android:onClick="goTodoc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button_first" />
+        app:layout_constraintStart_toEndOf="@+id/button_video" />
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/scanner_view"

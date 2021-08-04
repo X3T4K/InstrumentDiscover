@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -21,8 +23,7 @@ import java.util.StringTokenizer;
 
 public class QrCodeReader extends Fragment {
     private CodeScanner mCodeScanner;
-    List<String> scanResult;
-    String y;
+    static List<String> scanResult;
 
     @Nullable
     @Override
@@ -53,6 +54,14 @@ public class QrCodeReader extends Fragment {
                 mCodeScanner.startPreview();
             }
         });
+        Button goToVideo = root.findViewById(R.id.button_video);
+        goToVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(QrCodeReader.this)
+                        .navigate(R.id.action_QrCodeFragment_to_VideoPlayerFragment);
+            }
+        });
         return root;
     }
 
@@ -68,23 +77,6 @@ public class QrCodeReader extends Fragment {
         mCodeScanner.releaseResources();
         System.out.println("GG");
         super.onPause();
-    }
-    public void goTovideo(View view){
-
-        newInstance(scanResult.get(1));
-    }
-    public void goTodoc(View view){
-
-    }
-
-    public static VideoPlayer newInstance(String link) {
-        VideoPlayer fragmentclass1 = new VideoPlayer();
-
-        Bundle args = new Bundle();
-        args.putString("message", link);
-        fragmentclass1.setArguments(args);
-
-        return fragmentclass1;
     }
 
 }
