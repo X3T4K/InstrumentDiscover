@@ -44,4 +44,25 @@ dependencies {
     implementation 'com.budiyev.android:code-scanner:2.1.0'
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+
+    def room_version = "2.3.0"
+
+    implementation "androidx.room:room-runtime:2.3.0"
+    annotationProcessor "androidx.room:room-compiler:2.3.0"
+
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:2.3.0"
+
+    // optional - RxJava3 support for Room
+    implementation "androidx.room:room-rxjava3:2.3.0"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:2.3.0"
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:2.3.0"
+
+    // optional - Paging 3 Integration
+    implementation "androidx.room:room-paging:2.4.0-alpha04"
+
 }

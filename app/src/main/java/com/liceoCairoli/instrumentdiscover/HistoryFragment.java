@@ -1,24 +1,25 @@
 package com.liceoCairoli.instrumentdiscover;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.lifecycle.LiveData;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Arrays;
-import java.util.Collections;
+import com.liceoCairoli.instrumentdiscover.dB.Instrument;
+import com.liceoCairoli.instrumentdiscover.dB.InstrumentRepository;
+
 import java.util.List;
 
-public class HistoryFragment extends Fragment {
+public class  HistoryFragment extends Fragment {
 
     @Override
     public View onCreateView(
@@ -32,49 +33,63 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.lv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        String x[] = {"1", "2","3","4","5","6","7"};
-        HistoryFragment.MyAdapter historyAdapter;
-        historyAdapter = new HistoryFragment.MyAdapter(Arrays.asList(x), getContext());
-        recyclerView.setAdapter(historyAdapter);
+        final InstrumentListAdapter adapter = new InstrumentListAdapter(new InstrumentDiff());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
     }
 
-    class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    public static class InstrumentListAdapter extends ListAdapter<Instrument, InstrumentViewHolder> {
 
-        private List<String> name_here;
-        private Context context;
-
-        public MyAdapter(List<String> name_here,  Context ctx) {
-            this.name_here = name_here;
-            context = ctx;
+        public InstrumentListAdapter(@NonNull DiffUtil.ItemCallback<Instrument> diffCallback) {
+            super(diffCallback);
         }
 
         @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_list_element, parent, false);
-            return new ViewHolder(view);
+        public InstrumentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return InstrumentViewHolder.create(parent);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.name.setText(new StringBuilder().append("Nome :").append(name_here.get(position)));
+        public void onBindViewHolder(InstrumentViewHolder holder, int position) {
+            Instrument current = getItem(position);
+            holder.bind(current.getName());
+        }
 
+
+    }
+
+    static class InstrumentDiff extends DiffUtil.ItemCallback<Instrument> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull Instrument oldItem, @NonNull Instrument newItem) {
+            return oldItem == newItem;
         }
 
         @Override
-        public int getItemCount() {
-            return 7;
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-
-            public TextView name;
-
-            public ViewHolder(View view) {
-                super(view);
-                name = (TextView) view.findViewById(R.id.InstrumentName);
-
-            }
+        public boolean areContentsTheSame(@NonNull Instrument oldItem, @NonNull Instrument newItem) {
+            return oldItem.getName().equals(newItem.getName());
         }
     }
+
+    static class InstrumentViewHolder extends RecyclerView.ViewHolder {
+        private final TextView instrumentItemView;
+
+        private InstrumentViewHolder(View itemView) {
+            super(itemView);
+            instrumentItemView = itemView.findViewById(R.id.textView);
+        }
+
+        public void bind(String text) {
+            instrumentItemView.setText(text);
+        }
+
+        static InstrumentViewHolder create(ViewGroup parent) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.history_list_element, parent, false);
+            return new InstrumentViewHolder(view);
+        }
+
+    }
+
 }
