@@ -10,23 +10,23 @@
         android:id="@+id/InstrumentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="64dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/OpenResources"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/OpenResources"
-        android:layout_width="23dp"
-        android:layout_height="16dp"
-        android:layout_alignParentLeft="true"
+        android:id="@+id/deleteItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginEnd="64dp"
+        android:background="@null"
+        android:src="@drawable/ic_baseline_delete_forever_24"
         app:layout_constraintBottom_toBottomOf="@+id/InstrumentName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/InstrumentName"
         app:layout_constraintTop_toTopOf="@+id/InstrumentName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

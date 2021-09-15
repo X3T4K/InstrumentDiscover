@@ -10,12 +10,15 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.liceoCairoli.instrumentdiscover.data.InstrumentViewModel;
 import com.google.zxing.Result;
+import com.liceoCairoli.instrumentdiscover.data.Instrument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +27,15 @@ import java.util.StringTokenizer;
 public class QrCodeReader extends Fragment {
     private CodeScanner mCodeScanner;
     static List<String> scanResult;
+    InstrumentViewModel mInstrumentViewModel;
+    View root;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final Activity activity = getActivity();
-        View root = inflater.inflate(R.layout.fragment_qrcode, container, false);
+        root = inflater.inflate(R.layout.fragment_qrcode, container, false);
         CodeScannerView scannerView = root.findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(activity, scannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
@@ -44,6 +49,7 @@ public class QrCodeReader extends Fragment {
                         while (st.hasMoreTokens()) {
                             scanResult.add(st.nextToken());
                         }
+                        insertnewInstrument();
                     }
                 });
             }
@@ -54,6 +60,7 @@ public class QrCodeReader extends Fragment {
                 mCodeScanner.startPreview();
             }
         });
+
         Button goToVideo = root.findViewById(R.id.button_video);
         goToVideo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +73,7 @@ public class QrCodeReader extends Fragment {
     }
 
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -75,9 +83,20 @@ public class QrCodeReader extends Fragment {
     @Override
     public void onPause() {
         mCodeScanner.releaseResources();
-        System.out.println("GG");
         super.onPause();
     }
+
+    public void insertnewInstrument(){
+        String name = scanResult.get(0);
+        String ytLink = scanResult.get(1);
+        String docLink = scanResult.get(2);
+        Instrument newInstrument = new Instrument(0, name, ytLink, docLink);
+        mInstrumentViewModel.addInstrument(newInstrument);
+
+    }
+
+
+
 
 }
 

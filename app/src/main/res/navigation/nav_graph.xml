@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_HistoryFragment_to_QrCodeFragment"
             app:destination="@id/QrCodeFragment" />
+        <action
+            android:id="@+id/action_HistoryFragment_to_VideoPlayerFragment"
+            app:destination="@id/VideoPlayerFragment" />
     </fragment>
 
     <fragment

@@ -1,55 +1,68 @@
 package com.liceoCairoli.instrumentdiscover;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerUtils;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 
-import java.util.StringTokenizer;
+/*
+    credit to: https://github.com/PierfrancescoSoffritti/android-youtube-player
+    for documentation refer to: https://github.com/PierfrancescoSoffritti/android-youtube-player
+ */
+
 
 public class VideoPlayer extends Fragment {
-String video;
+
+    String ytLInk;
+    private YouTubePlayerView youTubePlayerView;
+
+    public VideoPlayer() {}
+
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-         video = QrCodeReader.scanResult.get(1);
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_videoplayer, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_videoplayer, container, false);
+
+        MainActivity.fab.hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        youTubePlayerView = view.findViewById(R.id.youtube_player_view);
+        ytLInk = QrCodeReader.scanResult.get(1);
+        initYouTubePlayerView();
+
+        return view;
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void initYouTubePlayerView() {
+        // The player will automatically release itself when the fragment is destroyed.
+        // The player will automatically pause when the fragment is stopped
+        // If you don't add YouTubePlayerView as a lifecycle observer, you will have to release it manually.
+        getLifecycle().addObserver(youTubePlayerView);
 
-        YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_view);
-        YouTubePlayer.OnInitializedListener onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.loadVideo(video);
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                YouTubePlayerUtils.loadOrCueVideo(
+                        youTubePlayer, getLifecycle(),
+                        ytLInk,0f
+                );
             }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-            }
-
-        };
-        youTubePlayerView.initialize("", onInitializedListener);
-
-
-
-
+        });
     }
-
 }
