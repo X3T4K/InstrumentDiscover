@@ -1,6 +1,8 @@
 package com.liceoCairoli.instrumentdiscover;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -66,13 +69,23 @@ public class QrCodeReader extends Fragment {
             @Override
             public void onClick(View v) {
                 NavHostFragment.findNavController(QrCodeReader.this)
-                        .navigate(R.id.action_QrCodeFragment_to_VideoPlayerFragment);
+                        .navigate(R.id.action_HistoryFragment_to_VideoPlayerFragment);
+            }
+
+        });
+        Button goToDoc = root.findViewById(R.id.button_doc);
+        goToDoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pdf_url = scanResult.get(2);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(pdf_url));
+                startActivity(browserIntent);
             }
         });
+        mInstrumentViewModel = new ViewModelProvider(this).get(InstrumentViewModel.class);
+
         return root;
     }
-
-
 
     @Override
     public void onResume() {

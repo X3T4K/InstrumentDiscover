@@ -84,7 +84,7 @@ class HistoryFragment : Fragment() {
             }
 
             holder.itemView.deleteItem.setOnClickListener {
-                val parentClass = MainActivity()
+                /*val parentClass = MainActivity()
                 parentClass.deleteInstrument(
                     Instrument(
                         0,
@@ -92,7 +92,7 @@ class HistoryFragment : Fragment() {
                         currentItem.ytLink,
                         currentItem.docLink
                     )
-                )
+                )*/
                 notifyDataSetChanged()
             }
         }
